@@ -9,8 +9,8 @@ services:
     restart: always
     volumes:
       - "/dev/net/tun:/dev/net/tun"
-      - '${{ sf:"appdata" }}/tailscale:/var/lib/tailscale'
-      - '${{ sf:"appdata" }}/scripts/tailscale:/scripts'
+      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/tailscale:/var/lib/tailscale"
+      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/scripts/tailscale:/scripts"
     env_file:
       - ./.env
     cap_add:
@@ -43,7 +43,7 @@ services:
       - "NORDVPN_OPENVPN_PROTOCOL=tcp"
     volumes:
       - "/dev/net/tun:/dev/net/tun"
-      - '${{ sf:"appdata" }}/scripts/nordvpn:/scripts'
+      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/scripts/nordvpn:/scripts"
     cap_add:
       - net_admin
       - sys_module

@@ -8,6 +8,6 @@ services:
     env_file:
       - ./.env
     volumes:
-      - '${{ sf:"appdata" }}/postgres18/data:/var/lib/postgresql/data/pgdata'
+      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/postgres18/data:/var/lib/postgresql/data/pgdata"
     ports:
       - "5432:5432"
