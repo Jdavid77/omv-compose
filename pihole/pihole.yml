@@ -20,8 +20,8 @@ services:
     environment:
       TZ: "Europe/Lisbon"
     volumes:
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/pihole/etc-pihole:/etc/pihole"
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+      - "${APPDATA:?APPDATA is not set in global.env}/pihole/etc-pihole:/etc/pihole"
+      - "${APPDATA:?APPDATA is not set in global.env}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
     restart: unless-stopped
 networks:
   pih_network:

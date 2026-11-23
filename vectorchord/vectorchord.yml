@@ -8,7 +8,7 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/immich_postgres/data:/var/lib/postgresql/data/pgdata"
+      - "${APPDATA:?APPDATA is not set in global.env}/immich_postgres/data:/var/lib/postgresql/data/pgdata"
     ports:
       - "6001:5432"
     shm_size: 128mb

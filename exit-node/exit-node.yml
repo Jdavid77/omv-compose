@@ -9,8 +9,8 @@ services:
     restart: always
     volumes:
       - "/dev/net/tun:/dev/net/tun"
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/tailscale:/var/lib/tailscale"
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/scripts/tailscale:/scripts"
+      - "${APPDATA:?APPDATA is not set in global.env}/tailscale:/var/lib/tailscale"
+      - "${APPDATA:?APPDATA is not set in global.env}/scripts/tailscale:/scripts"
     env_file:
       - ./.env
     cap_add:
@@ -43,7 +43,7 @@ services:
       - "NORDVPN_OPENVPN_PROTOCOL=tcp"
     volumes:
       - "/dev/net/tun:/dev/net/tun"
-      - "/srv/dev-disk-by-uuid-ff763355-7fef-41fe-b2d7-6d368a3b4313/docker/appdata/scripts/nordvpn:/scripts"
+      - "${APPDATA:?APPDATA is not set in global.env}/scripts/nordvpn:/scripts"
     cap_add:
       - net_admin
       - sys_module

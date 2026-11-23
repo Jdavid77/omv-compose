@@ -18,9 +18,11 @@ The repo is the plugin's Compose Files shared folder. Each stack is `<name>/<nam
 its secrets in `<name>/<name>.env` next to it (editable in the plugin UI). The stacks load them
 through the `.env` symlink the plugin creates. The `.env` files, and the plugin's `compose.yml`
 and `compose.override.yml`, are gitignored and stay on the NAS; `<name>.env.example` lists the
-keys. Data lives in the `appdata` shared folder, referenced by its absolute path. The plugin's
-`${{ sf:"..." }}` and `CHANGE_TO_COMPOSE_DATA_PATH` placeholders only work in files written from
-its editor, not in files pulled from git, so don't use them here.
+keys. Data lives in the `appdata` shared folder, referenced as `${APPDATA}`, which is set in
+`global.env`, the plugin's global environment file. Edit it here rather than in the plugin's UI, and
+keep secrets out of it: it's committed. Compose refuses to start a stack if `APPDATA` is unset. The plugin's `${{ sf:"..." }}` and
+`CHANGE_TO_COMPOSE_DATA_PATH` placeholders only work in files written from its editor, not in files
+pulled from git, so don't use them here.
 
 ## Updating
 
