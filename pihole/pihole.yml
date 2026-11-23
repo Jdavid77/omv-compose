@@ -20,8 +20,8 @@ services:
     environment:
       TZ: "Europe/Lisbon"
     volumes:
-      - "CHANGE_TO_COMPOSE_DATA_PATH/pihole/etc-pihole:/etc/pihole"
-      - "CHANGE_TO_COMPOSE_DATA_PATH/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+      - '${{ sf:"appdata" }}/pihole/etc-pihole:/etc/pihole'
+      - '${{ sf:"appdata" }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'
     restart: unless-stopped
 networks:
   pih_network:

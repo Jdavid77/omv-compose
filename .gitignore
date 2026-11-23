@@ -1,0 +1,2 @@
+# Secrets and files the OMV compose plugin generates
+*.env

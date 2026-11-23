@@ -8,6 +8,6 @@ services:
     env_file:
       - ./postgres18.env
     volumes:
-      - "CHANGE_TO_COMPOSE_DATA_PATH/postgres18/data:/var/lib/postgresql/data/pgdata"
+      - '${{ sf:"appdata" }}/postgres18/data:/var/lib/postgresql/data/pgdata'
     ports:
       - "5432:5432"
