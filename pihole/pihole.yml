@@ -16,7 +16,7 @@ services:
       - NET_BIND_SERVICE
       - SYS_TIME #NTP
     env_file:
-      - ./pihole.env
+      - ./.env
     environment:
       TZ: "Europe/Lisbon"
     volumes:

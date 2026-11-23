@@ -1,2 +1,4 @@
-# Secrets and files the OMV compose plugin generates
+# Secrets and files the OMV compose plugin generates in each stack
 *.env
+compose.yml
+compose.override.yml

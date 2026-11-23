@@ -15,9 +15,11 @@ The cluster in [home-cluster](https://github.com/Jdavid77/home-cluster) depends 
 ## Layout
 
 The repo is the plugin's Compose Files shared folder. Each stack is `<name>/<name>.yml`, with
-its secrets in `<name>/<name>.env` next to it. The `.env` files are gitignored and stay on the
-NAS; `<name>.env.example` lists the keys. Data lives in the `appdata` shared folder, referenced
-as `${{ sf:"appdata" }}`, which the plugin replaces with the absolute path.
+its secrets in `<name>/<name>.env` next to it (editable in the plugin UI). The stacks load them
+through the `.env` symlink the plugin creates. The `.env` files, and the plugin's `compose.yml`
+and `compose.override.yml`, are gitignored and stay on the NAS; `<name>.env.example` lists the
+keys. Data lives in the `appdata` shared folder, referenced as `${{ sf:"appdata" }}`, which the
+plugin replaces with the absolute path.
 
 ## Updating
 
