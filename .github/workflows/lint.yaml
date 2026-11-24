@@ -1,0 +1,46 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  dclint:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out the repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+
+      # dclint only finds compose.yml/docker-compose.yml by itself, so the stack files are listed explicitly
+      - name: Run dclint
+        run: npx --yes dclint@3.1.0 --max-warnings 0 */*.yml
+
+  compose-config:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out the repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The real <name>.env files only exist on the NAS, so each stack gets its .env.example
+      - name: Validate each stack
+        run: |
+          status=0
+          for f in */*.yml; do
+            dir=$(dirname "$f")
+            cp "$dir/$(basename "$dir").env.example" "$dir/.env"
+            echo "::group::$f"
+            docker compose --env-file global.env -f "$f" config -q || status=1
+            echo "::endgroup::"
+          done
+          exit $status

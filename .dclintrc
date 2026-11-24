@@ -1,0 +1,9 @@
+# dclint config: https://github.com/zavoloklom/docker-compose-linter
+# 0 = off. These rules flag things the stacks do on purpose.
+rules:
+  # exit-node builds the nordvpn image locally and names it with `image`
+  no-build-and-image: 0
+  # pihole and the postgres stacks serve the LAN and the cluster, so they listen on every interface
+  no-unbound-port-interfaces: 0
+  # the plugin names each project after its stack folder
+  require-project-name-field: 0
