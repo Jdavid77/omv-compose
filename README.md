@@ -10,8 +10,6 @@ The cluster in [home-cluster](https://github.com/Jdavid77/home-cluster) depends 
 | `pihole/` | DNS server for the local network |
 | `exit-node/` | Tailscale exit node through NordVPN. Builds the `tailnord` image from its `Dockerfile` |
 
-`scripts/renew-cert.sh` copies the `*.jnobrega.com` certificate from Akeyless onto the NAS.
-
 ## Layout
 
 The repo is checked out as the plugin's Compose Files shared folder. Each stack is
