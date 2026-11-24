@@ -4,6 +4,7 @@
     "config:recommended",
     ":timezone(Europe/Lisbon)"
   ],
+  "rebaseWhen": "conflicted",
   "docker-compose": {
     "managerFilePatterns": [
       "/^[^/]+/[^/]+\\.yml$/"
