@@ -18,6 +18,16 @@ services:
     entrypoint:
       - /scripts/nordvpn.sh
     restart: always
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "nordvpn status | grep -q 'Status: Connected'"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      # check every 5s while starting, so the container turns healthy soon after it connects
+      start_interval: 5s
     logging:
       driver: fluentd
       options:
@@ -49,6 +59,17 @@ services:
     command:
       - /scripts/tailscale.sh
     restart: always
+    healthcheck:
+      test:
+        - CMD
+        - tailscale
+        - status
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      # check every 5s while starting, so the container turns healthy soon after it connects
+      start_interval: 5s
     logging:
       driver: fluentd
       options:
