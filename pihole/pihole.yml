@@ -19,6 +19,14 @@ services:
       pih_network:
         ipv4_address: 192.168.1.139
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        # buffer in dockerd instead of failing the container when the collector is down
+        fluentd-async: "true"
+        # nanosecond timestamps keep the order of lines logged within the same second
+        fluentd-sub-second-precision: "true"
     cap_add:
       - NET_BIND_SERVICE
       - SYS_TIME #NTP

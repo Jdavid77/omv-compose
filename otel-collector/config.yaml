@@ -1,0 +1,49 @@
+# Receives the container logs that dockerd sends with the fluentd logging driver and ships them to VictoriaLogs.
+receivers:
+  fluent_forward:
+    endpoint: 0.0.0.0:24224
+
+processors:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 200
+    spike_limit_mib: 50
+  # The fluentd driver puts container_name on each log record. Moving it to the resource
+  # makes it a VictoriaLogs stream field, so each container gets its own stream.
+  groupbyattrs:
+    keys:
+      - container_name
+  transform/resource:
+    log_statements:
+      - context: resource
+        statements:
+          # dockerd sends the name with a leading slash, e.g. /pihole
+          - set(attributes["container.name"], attributes["container_name"])
+          - replace_pattern(attributes["container.name"], "^/", "")
+          - delete_key(attributes, "container_name")
+          - set(attributes["host.name"], "nas")
+      # the fluentd tag defaults to the short container ID, which container_id already has
+      - context: log
+        statements:
+          - delete_key(attributes, "fluent.tag")
+  batch:
+
+exporters:
+  debug:
+    verbosity: detailed
+  otlphttp/victoria-logs:
+    endpoint: https://logs.jnobrega.com/insert/opentelemetry
+
+service:
+  pipelines:
+    logs:
+      receivers:
+        - fluent_forward
+      processors:
+        - memory_limiter
+        - groupbyattrs
+        - transform/resource
+        - batch
+      exporters:
+        # swap to otlphttp/victoria-logs once the debug output looks right
+        - debug

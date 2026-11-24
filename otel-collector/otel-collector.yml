@@ -1,0 +1,14 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.165.0
+    container_name: otel-collector
+    volumes:
+      - ./config.yaml:/etc/otelcol-contrib/config.yaml:ro
+    # dockerd on the host connects here for every container using the fluentd logging driver
+    ports:
+      - '127.0.0.1:24224:24224'
+    # Resolve VictoriaLogs to the cluster's internal gateway without DNS, so log shipping
+    # doesn't depend on Pi-hole or the cluster's DNS being up
+    extra_hosts:
+      - logs.jnobrega.com:192.168.1.251
+    restart: unless-stopped

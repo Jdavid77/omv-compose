@@ -18,6 +18,14 @@ services:
     entrypoint:
       - /scripts/nordvpn.sh
     restart: always
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        # buffer in dockerd instead of failing the container when the collector is down
+        fluentd-async: "true"
+        # nanosecond timestamps keep the order of lines logged within the same second
+        fluentd-sub-second-precision: "true"
     cap_add:
       - net_admin
       - sys_module
@@ -41,6 +49,14 @@ services:
     command:
       - /scripts/tailscale.sh
     restart: always
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        # buffer in dockerd instead of failing the container when the collector is down
+        fluentd-async: "true"
+        # nanosecond timestamps keep the order of lines logged within the same second
+        fluentd-sub-second-precision: "true"
     user: root
     cap_add:
       - net_admin
