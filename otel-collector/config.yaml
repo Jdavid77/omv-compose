@@ -22,10 +22,12 @@ processors:
           - replace_pattern(attributes["container.name"], "^/", "")
           - delete_key(attributes, "container_name")
           - set(attributes["host.name"], "nas")
-      # the fluentd tag defaults to the short container ID, which container_id already has
+      # the fluentd tag defaults to the short container ID, and container.name already
+      # identifies the container, so neither ID is kept
       - context: log
         statements:
           - delete_key(attributes, "fluent.tag")
+          - delete_key(attributes, "container_id")
   batch:
 
 exporters:
@@ -45,5 +47,5 @@ service:
         - transform/resource
         - batch
       exporters:
-        # swap to otlphttp/victoria-logs once the debug output looks right
-        - debug
+        # swap to debug to print the records to the collector's output instead
+        - otlphttp/victoria-logs
