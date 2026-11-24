@@ -1,28 +1,28 @@
 services:
   pihole:
-    hostname: pihole
+    image: pihole/pihole:2026.11.0
+    container_name: pihole
+    volumes:
+      - ${APPDATA:?APPDATA is not set in global.env}/pihole/etc-pihole:/etc/pihole
+      - ${APPDATA:?APPDATA is not set in global.env}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+    environment:
+      TZ: "Europe/Lisbon"
+    env_file:
+      - ./.env
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - '53:53/tcp'
+      - '53:53/udp'
+      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - '80:80/tcp'
     networks:
       pih_network:
         ipv4_address: 192.168.1.139
-    container_name: pihole
-    image: pihole/pihole:2026.11.0
-    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
-      - "80:80/tcp"
+    restart: unless-stopped
     cap_add:
       - NET_BIND_SERVICE
       - SYS_TIME #NTP
-    env_file:
-      - ./.env
-    environment:
-      TZ: "Europe/Lisbon"
-    volumes:
-      - "${APPDATA:?APPDATA is not set in global.env}/pihole/etc-pihole:/etc/pihole"
-      - "${APPDATA:?APPDATA is not set in global.env}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
-    restart: unless-stopped
+    hostname: pihole
 networks:
   pih_network:
     driver: macvlan
