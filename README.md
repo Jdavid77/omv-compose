@@ -5,8 +5,8 @@ The cluster in [home-cluster](https://github.com/Jdavid77/home-cluster) depends 
 
 | Stack | Role |
 |---|---|
-| `postgres18/` | Shared PostgreSQL instance. Cluster apps keep their databases here |
-| `postgres19/` | Postgres 19 + PostGIS replacement for `postgres18/`, on port 5433 until the cutover |
+| `postgres18/` | Previous shared instance, kept on port 5434 as a rollback until it is removed |
+| `postgres19/` | Shared PostgreSQL 19 + PostGIS instance. Cluster apps keep their databases here |
 | `vectorchord/` | pgvector-compatible Postgres for vector workloads |
 | `pihole/` | DNS server for the local network |
 | `exit-node/` | Tailscale exit node through NordVPN. Builds the `tailnord` image from its `Dockerfile` |
