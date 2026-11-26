@@ -1,0 +1,30 @@
+services:
+  db:
+    image: ghcr.io/jdavid77/postgis:19-3.7@sha256:26222246b8258f4ffbc32236ab54a656cbc3ee788bcd3925afebde55a83ff49f
+    container_name: postgres19
+    volumes:
+      - ${APPDATA:?APPDATA is not set in global.env}/postgres19:/var/lib/postgresql
+    env_file:
+      - ./.env
+    ports:
+      # 5433 while migrating from postgres18, move to 5432 at cutover
+      - '5433:5432'
+    restart: always
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - -U
+        - postgres
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
+        # buffer in dockerd instead of failing the container when the collector is down
+        fluentd-async: "true"
+        # nanosecond timestamps keep the order of lines logged within the same second
+        fluentd-sub-second-precision: "true"
